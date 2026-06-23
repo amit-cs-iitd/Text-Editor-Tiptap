@@ -33,6 +33,11 @@
     --ring: 240 5% 64.9%;
 
     --radius: 0.5rem;
+
+    --emerald-primary: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.12);
+    --emerald-border: rgba(16, 185, 129, 0.24);
+    --emerald-bg: rgba(16, 185, 129, 0.04);
   }
 
   .dark {
@@ -64,6 +69,11 @@
     --destructive-foreground: 0 85.7% 97.3%;
 
     --ring: 240 3.7% 25%;
+
+    --cyan-primary: #00e5ff;
+    --cyan-glow: rgba(0, 229, 255, 0.12);
+    --cyan-border: rgba(0, 229, 255, 0.24);
+    --cyan-bg: rgba(0, 229, 255, 0.04);
   }
 }
 
@@ -367,4 +377,44 @@
   main > [class*='border-b']:nth-child(2) {
     display: none !important;
   }
+}
+
+/* Toolbar buttons (Cyan/Emerald) */
+
+.rte-toolbar-btn.is-active {
+  background: var(--emerald-bg);
+  color: var(--emerald-primary);
+  box-shadow: 0 0 8px var(--emerald-glow);
+  animation: rte-btn-activate 200ms ease;
+  position: relative;
+}
+
+.dark .rte-toolbar-btn.is-active {
+  background: var(--cyan-bg);
+  color: var(--cyan-primary);
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.rte-toolbar-btn.is-active::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--emerald-primary);
+  box-shadow: 0 0 6px var(--emerald-glow);
+}
+
+.dark .rte-toolbar-btn.is-active::after {
+  background: var(--cyan-primary);
+  box-shadow: 0 0 6px var(--cyan-glow);
+}
+
+@keyframes rte-btn-activate {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
 }
