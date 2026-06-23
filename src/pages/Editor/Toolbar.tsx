@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { Editor as TiptapEditor } from '@tiptap/react';
 import {
   Bold,
@@ -31,11 +32,22 @@ import { LinkPopover } from './LinkPopover';
 
 const btn = (active: boolean) =>
   cn(
-    'inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent transition disabled:opacity-50 disabled:pointer-events-none',
-    active && 'bg-accent text-accent-foreground'
+    'rte-toolbar-btn relative inline-flex h-8 w-8 items-center justify-center rounded-md transition duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none',
+    active ? 'is-active' : 'text-muted-foreground'
   );
 
 export function Toolbar({ editor }: { editor: TiptapEditor | null }) {
+  // Force re-render on every editor transaction so active states are updated instantly
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    if (!editor) return;
+    const handler = () => setTick((t) => t + 1);
+    editor.on('transaction', handler);
+    return () => {
+      editor.off('transaction', handler);
+    };
+  }, [editor]);
+
   if (!editor) return null;
 
   return (
